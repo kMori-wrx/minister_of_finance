@@ -1,0 +1,23 @@
+# 依存パッケージ（Git管理しない）
+node_modules/
+
+# ビルド成果物
+dist/
+release/
+
+# SQLiteデータベースファイル（ローカルデータ）
+*.db
+*.db-shm
+*.db-wal
+
+# Electronパッケージ一時ファイル
+out/
+.webpack/
+
+# OSごとのメタファイル
+.DS_Store
+Thumbs.db
+
+# エディタ設定
+.vscode/
+*.swp

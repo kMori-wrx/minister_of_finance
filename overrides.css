@@ -1,0 +1,30 @@
+/* 操作評価用：表示倍率を高め、勘定業務画面の視認性を確保する。 */
+body { font-size: 16px; }
+.topbar { height: 62px; }
+.app-shell { padding-top: 62px; }
+.sidebar { top: 62px; }
+.brand { font-size: 24px; }
+.brand-mark { width: 34px; height: 34px; font-size: 22px; }
+.brand small, .company-info, .nav-group, .side-footer, .statusbar { font-size: 13px; }
+.nav-item { padding: 13px 18px; font-size: 16px; }
+.nav-item span { width: 21px; font-size: 22px; }
+.main-content { min-height: calc(100vh - 91px); }
+.page-title h1 { font-size: 27px; }
+.page-title p, .card-label, .panel-head h2 { font-size: 15px; }
+.summary-card strong { font-size: 31px; }
+.summary-card span { font-size: 13px; }
+.btn { font-size: 15px; padding: 10px 18px; }
+.tool-btn { min-width: 66px; height: 48px; font-size: 22px; }
+.tool-btn span { font-size: 12px; }
+.data-table { font-size: 15px; }
+.data-table th { font-size: 13px; padding: 10px; }
+.data-table td { padding: 10px; }
+.form-grid label, .search-grid label, .filter-line label, .export-form label { font-size: 14px; }
+input, select, textarea { height: 39px; font-size: 15px; }
+textarea { height: auto; }
+.input-money { height: 39px; }
+.input-money input { height: 37px; }
+.quick-actions i { font-size: 27px; }
+.quick-actions span { font-size: 15px; }
+.quick-actions small, .helper, .preview-note, .grid-info, .small-muted { font-size: 12px; }
+.statusbar { height: 29px; }

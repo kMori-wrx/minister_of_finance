@@ -1,0 +1,81 @@
+{
+  "name": "kanjo-daijin",
+  "version": "1.0.0",
+  "description": "小規模事業者向けオフライン簡易会計システム",
+  "main": "main.js",
+  "scripts": {
+    "dev": "electron .",
+    "start": "electron .",
+    "rebuild": "electron-rebuild -f -w better-sqlite3",
+    "build": "electron-builder --win --x64",
+    "build:dir": "electron-builder --win --x64 --dir"
+  },
+  "devDependencies": {
+    "@electron/rebuild": "^3.7.1",
+    "electron": "^37.2.6",
+    "electron-builder": "^25.1.8"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.2.0"
+  },
+  "build": {
+    "appId": "jp.local.kanjo-daijin",
+    "productName": "勘定大臣",
+    "copyright": "Copyright © 2026",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "style.css",
+      "overrides.css",
+      "app.js",
+      "db/schema.sql",
+      "node_modules/**/*",
+      "!node_modules/**/*.md",
+      "!node_modules/**/*.ts",
+      "!node_modules/**/test/**",
+      "!node_modules/**/tests/**",
+      "!node_modules/**/spec/**"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "勘定大臣",
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "installerHeaderIcon": "assets/icon.ico",
+      "license": "LICENSE"
+    },
+    "portable": {
+      "artifactName": "勘定大臣-${version}-portable.exe"
+    },
+    "extraResources": [
+      {
+        "from": "db/schema.sql",
+        "to": "db/schema.sql"
+      }
+    ]
+  },
+  "allowScripts": {
+    "better-sqlite3@12.11.1": true,
+    "electron@37.10.3": true
+  }
+}
