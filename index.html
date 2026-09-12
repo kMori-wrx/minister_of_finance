@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>勘定大臣 | 簡易会計システム</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">K</span><span>勘定大臣</span><small>簡易会計システム</small></div>
+      <div class="company-info"><span>株式会社サンプル商事</span><span class="year-pill">第5期　2026年度</span><span class="user">● 経理　山田 花子</span></div>
+    </header>
+
+    <aside class="sidebar">
+      <div class="side-caption">メインメニュー</div>
+      <nav id="sideNav">
+        <button class="nav-item active" data-screen="dashboard"><span>▦</span> ダッシュボード</button>
+        <div class="nav-group">日常業務</div>
+        <button class="nav-item" data-screen="transaction"><span>✎</span> 取引入力</button>
+        <button class="nav-item" data-screen="journal"><span>▤</span> 取引・仕訳一覧</button>
+        <div class="nav-group">集計・出力</div>
+        <button class="nav-item" data-screen="monthly"><span>▥</span> 月次集計</button>
+        <button class="nav-item" data-screen="export"><span>⇩</span> Excel出力</button>
+        <div class="nav-group">設定</div>
+        <button class="nav-item" data-screen="accounts"><span>▣</span> 勘定科目マスタ</button>
+      </nav>
+      <div class="side-footer"><span class="dot"></span> システム稼働中<br><small>最終更新 2026/09/12 10:30</small></div>
+    </aside>
+
+    <main class="main-content">
+      <section id="dashboard" class="screen active">
+        <div class="page-title"><div><h1>ダッシュボード</h1><p>2026年9月の業務状況</p></div><button class="btn primary" data-go="transaction">＋ 新しい取引を入力</button></div>
+        <div class="summary-row">
+          <article class="summary-card sales"><div class="card-label">当月売上</div><strong id="salesTotal">¥0</strong><span>前月比 <b>+8.2%</b></span></article>
+          <article class="summary-card expense"><div class="card-label">当月経費</div><strong id="expenseTotal">¥0</strong><span>前月比 <b>−3.5%</b></span></article>
+          <article class="summary-card profit"><div class="card-label">概算利益</div><strong id="profitTotal">¥0</strong><span>売上に対する比率 <b id="profitRate">0%</b></span></article>
+          <article class="summary-card count"><div class="card-label">取引件数</div><strong id="transactionCount">0件</strong><span>今月登録分</span></article>
+        </div>
+        <div class="content-grid dashboard-grid">
+          <div class="panel">
+            <div class="panel-head"><h2>直近の取引</h2><button class="text-btn" data-go="journal">すべて表示 ›</button></div>
+            <table class="data-table compact"><thead><tr><th>取引日</th><th>取引区分</th><th>摘要</th><th class="right">金額</th></tr></thead><tbody id="recentTransactions"></tbody></table>
+          </div>
+          <div class="panel quick-panel"><div class="panel-head"><h2>よく使う機能</h2></div>
+            <div class="quick-actions"><button data-go="transaction"><i>✎</i><span>取引入力</span><small>日々の取引を登録</small></button><button data-go="journal"><i>▤</i><span>仕訳一覧</span><small>登録内容を確認・修正</small></button><button data-go="monthly"><i>▥</i><span>月次集計</span><small>月ごとの集計を確認</small></button><button data-go="export"><i>⇩</i><span>Excel出力</span><small>帳票データを保存</small></button></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="transaction" class="screen">
+        <div class="page-title"><div><h1 id="transactionTitle">取引入力</h1><p id="transactionSubtitle">取引内容を入力すると、仕訳を自動作成します。</p></div></div>
+        <div class="toolbar"><button class="tool-btn" id="newTransaction">▧<span>新規</span></button><button class="tool-btn accent" id="saveTransaction">▣<span>保存</span></button><button class="tool-btn" id="clearTransaction">↻<span>クリア</span></button><div class="toolbar-spacer"></div><span class="required-note">* は必須項目です</span></div>
+        <div class="form-layout">
+          <div class="panel form-panel"><div class="panel-head"><h2>取引情報</h2><span class="record-badge" id="editBadge">新規登録</span></div>
+            <form id="transactionForm" novalidate>
+              <div class="form-grid">
+                <label>取引日 <em>*</em><input id="txDate" type="date" required></label>
+                <label>取引区分 <em>*</em><select id="txType" required><option value="">選択してください</option><option>売上</option><option>仕入</option><option>経費</option><option>入金</option><option>出金</option><option>その他</option></select></label>
+                <label>金額 <em>*</em><div class="input-money"><span>¥</span><input id="txAmount" type="number" min="1" placeholder="0" required></div></label>
+                <label>支払・入金方法 <em>*</em><select id="txMethod" required><option value="">選択してください</option><option>現金</option><option>普通預金</option><option>クレジットカード</option><option>その他</option></select></label>
+                <label>勘定科目 <em>*</em><select id="txAccount" required></select></label>
+                <label>取引先<input id="txPartner" type="text" placeholder="例：株式会社○○"></label>
+                <label class="span-2">摘要<input id="txDescription" type="text" placeholder="例：事務用品購入"></label>
+                <label class="span-2">メモ<textarea id="txMemo" rows="3" placeholder="社内向けのメモを入力"></textarea></label>
+              </div>
+              <p id="formError" class="form-error" role="alert"></p>
+            </form>
+          </div>
+          <div class="panel preview-panel"><div class="panel-head"><h2>仕訳プレビュー</h2><span class="auto-badge">自動生成</span></div>
+            <p class="helper">入力内容から作成される仕訳です。</p>
+            <table class="journal-preview"><thead><tr><th>借方科目</th><th class="right">借方金額</th><th>貸方科目</th><th class="right">貸方金額</th></tr></thead><tbody><tr><td id="previewDebit">―</td><td id="previewDebitAmount" class="right">―</td><td id="previewCredit">―</td><td id="previewCreditAmount" class="right">―</td></tr></tbody></table>
+            <div class="balance-check"><span>貸借チェック</span><strong id="balanceStatus">入力待ち</strong></div>
+            <div class="preview-note">取引を保存すると、取引データと仕訳データが同時に登録されます。</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="journal" class="screen">
+        <div class="page-title"><div><h1>取引・仕訳一覧</h1><p>登録済みの取引と自動生成された仕訳を確認・修正します。</p></div></div>
+        <div class="toolbar"><button class="tool-btn" data-go="transaction">＋<span>新規</span></button><button class="tool-btn" id="editSelected">✎<span>編集</span></button><button class="tool-btn danger" id="deleteSelected">⌫<span>削除</span></button><button class="tool-btn" id="exportJournal">⇩<span>Excel出力</span></button></div>
+        <div class="search-panel panel"><div class="search-title">検索条件 <button id="clearSearch" class="text-btn">条件をクリア</button></div><div class="search-grid"><label>期間<input id="filterFrom" type="date"><span>～</span><input id="filterTo" type="date"></label><label>勘定科目<select id="filterAccount"></select></label><label>取引区分<select id="filterType"><option value="">すべて</option><option>売上</option><option>仕入</option><option>経費</option><option>入金</option><option>出金</option><option>その他</option></select></label><label>取引先<input id="filterPartner" type="text"></label><label>摘要<input id="filterDescription" type="text"></label><button class="btn primary search-btn" id="applySearch">検索</button></div></div>
+        <div class="panel grid-panel"><div class="grid-info"><span id="journalCount">0件</span><span>取引日 ▼ / 仕訳ID ▼</span></div><div class="table-scroll"><table class="data-table selectable"><thead><tr><th></th><th>仕訳ID</th><th>取引日</th><th>取引区分</th><th>借方科目</th><th class="right">借方金額</th><th>貸方科目</th><th class="right">貸方金額</th><th>取引先</th><th>摘要</th></tr></thead><tbody id="journalRows"></tbody></table></div><div class="pagination"><button>‹ 前へ</button><span>1 / 1 ページ</span><button>次へ ›</button></div></div>
+      </section>
+
+      <section id="monthly" class="screen">
+        <div class="page-title"><div><h1>月次集計</h1><p>指定した年月の仕訳を、勘定科目ごとに集計します。</p></div></div>
+        <div class="toolbar"><button class="tool-btn accent" id="runMonthly">▥<span>集計</span></button><button class="tool-btn" id="exportMonthly">⇩<span>Excel出力</span></button></div>
+        <div class="panel filter-line"><label>対象年度<select id="monthlyYear"><option>2026</option></select> 年度</label><label>対象月<select id="monthlyMonth"><option value="09">9</option><option value="08">8</option><option value="10">10</option></select> 月</label><button class="btn primary" id="runMonthly2">集計する</button></div>
+        <div class="panel grid-panel"><div class="panel-head"><h2 id="monthlyCaption">2026年9月 月次集計</h2><span class="small-muted">金額単位：円</span></div><table class="data-table monthly-table"><thead><tr><th>勘定科目</th><th class="right">借方合計</th><th class="right">貸方合計</th><th class="right">差額</th></tr></thead><tbody id="monthlyRows"></tbody><tfoot id="monthlyTotals"></tfoot></table></div>
+      </section>
+
+      <section id="accounts" class="screen">
+        <div class="page-title"><div><h1>勘定科目マスタ</h1><p>取引入力で使用する勘定科目を管理します。</p></div></div>
+        <div class="toolbar"><button class="tool-btn accent" id="addAccount">＋<span>新規追加</span></button><button class="tool-btn" id="editAccount">✎<span>編集</span></button><button class="tool-btn" id="toggleAccount">⊘<span>有効・無効</span></button></div>
+        <div class="tabs" id="accountTabs"><button class="active" data-category="">すべて</button><button data-category="資産">資産</button><button data-category="負債">負債</button><button data-category="収益">収益</button><button data-category="費用">費用</button></div>
+        <div class="panel grid-panel"><div class="grid-info"><span id="accountCount">0件</span><span>行を選択して編集・有効化／無効化できます。</span></div><table class="data-table selectable"><thead><tr><th></th><th>科目コード</th><th>科目名</th><th>科目区分</th><th class="right">表示順</th><th>有効フラグ</th></tr></thead><tbody id="accountRows"></tbody></table></div>
+      </section>
+
+      <section id="export" class="screen">
+        <div class="page-title"><div><h1>Excel出力</h1><p>指定したデータをExcelで開けるCSVファイルとして出力します。</p></div></div>
+        <div class="export-layout"><div class="panel export-form"><div class="panel-head"><h2>出力条件</h2></div><label>出力対象<select id="exportType"><option value="journal">仕訳一覧</option><option value="monthly">月次集計</option></select></label><label>対象期間<div class="date-pair"><input id="exportFrom" type="date" value="2026-09-01"><span>～</span><input id="exportTo" type="date" value="2026-09-30"></div></label><label id="exportMonthWrap" class="hidden">対象年月<select id="exportMonth"><option value="09">2026年9月</option><option value="08">2026年8月</option></select></label><button class="btn primary wide" id="previewExport">プレビューを表示</button><button class="btn secondary wide" id="downloadExport">⇩ Excel出力（CSV）</button></div>
+          <div class="panel export-preview"><div class="panel-head"><h2>出力プレビュー</h2><span id="exportPreviewMeta" class="small-muted"></span></div><div class="table-scroll"><table class="data-table compact" id="exportPreviewTable"><thead></thead><tbody></tbody></table></div></div></div>
+      </section>
+    </main>
+    <footer class="statusbar"><span id="statusText">ダッシュボードを表示しています</span><span>会計期間：2026/04/01 ～ 2027/03/31</span></footer>
+  </div>
+
+  <div id="modal" class="modal-backdrop hidden"><div class="modal"><div class="modal-head"><h2 id="modalTitle">確認</h2><button id="modalClose" aria-label="閉じる">×</button></div><div id="modalBody"></div><div class="modal-actions" id="modalActions"></div></div></div>
+  <div id="toast" class="toast hidden"></div>
+  <script src="app.js"></script>
+</body>
+</html>
